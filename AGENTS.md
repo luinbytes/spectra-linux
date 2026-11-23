@@ -66,8 +66,8 @@ upstream imputnet repositories.
   prefix: feat/, fix/, docs/, agents/, chore/, ci/.
 - Branches are short lived. One still open and untouched after
   about two weeks needs a decision: finish it, or close it and
-  record what is left as an issue. Delete branches when their PR
-  merges or closes.
+  record what is left in the sweep list below. Delete branches
+  when their PR merges or closes.
 - Keep an open branch current with main while it lives. Never
   rewrite history on main.
 
@@ -79,7 +79,8 @@ upstream imputnet repositories.
   ships.
 - Never merge with red CI, and never disable, skip, or weaken a
   check (including the patch series lint) to get green. Fix the
-  cause, or file the issue and leave the PR unmerged.
+  cause, or record it in the sweep list below and leave the PR
+  unmerged.
 - Workflow changes get their own branch and PR, and the changed
   workflow must run successfully on the branch before merge
   wherever the trigger allows.
@@ -105,8 +106,8 @@ upstream imputnet repositories.
 - The deb repo workflow publishes packages people install from.
   Treat changes to it as release changes: extra care, own PR, and
   a successful dry run where possible.
-- A release that fails partway gets reported and tracked in an
-  issue, never left half published and silent.
+- A release that fails partway gets reported and recorded in the
+  sweep list below, never left half published and silent.
 
 ## Nothing gets forgotten
 
@@ -114,12 +115,20 @@ Lu's standing rule for this project: nothing is left to go stale,
 unmaintained, or forgotten about.
 
 - Every deferred item or follow up goes in exactly one durable
-  place before its PR closes: a GitHub issue in this repo, or an
-  entry in the sweep list below. A follow up that only exists in a
-  PR description, a review comment, or a chat does not exist.
+  place before its PR closes: an entry in the sweep list below, by
+  default. A follow up that only exists in a PR description, a
+  review comment, or a chat does not exist.
+- GitHub issues in Lu's repositories are work orders for his agent
+  swarms: an opened issue is picked up by the swarm, worked through
+  to a PR, and left for Lu to review. That is a global rule of Lu's.
+  So open an issue only when the item is meant to be solved by the
+  swarm, never as passive tracking or parking, and write it
+  descriptively and helpfully, because the swarm works from the
+  issue text alone: what is wanted, why, and what done looks like.
 - When you notice something stale while doing other work, fix it
-  in scope or file the issue in the same session. Noticing and
-  walking past is the failure this section exists to prevent.
+  in scope or record it in the sweep list in the same session.
+  Noticing and walking past is the failure this section exists to
+  prevent.
 
 ### The maintenance sweep
 
