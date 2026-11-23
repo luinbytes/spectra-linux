@@ -14,10 +14,13 @@ upstream imputnet repositories.
 ## What lives here, and what does not
 
 - The browser source arrives through the helium-chromium
-  submodule, which points at luinbytes/spectra. Never edit the
-  submodule's contents from this repo, and never commit changes
-  inside it. Core changes belong in luinbytes/spectra, in its own
-  patch layer.
+  submodule. Its home is luinbytes/spectra: PR #1 in this repo
+  moves the submodule URL from imputnet/helium to
+  luinbytes/spectra, and once that lands the submodule must keep
+  pointing at luinbytes/spectra. Never point it back at upstream,
+  and never edit the submodule's contents from this repo or commit
+  changes inside it. Core changes belong in luinbytes/spectra, in
+  its own patch layer.
 - This repo owns: the Linux patch set under patches/, packaging
   under package/, build scripts, the Docker builder images, and
   the CI workflows that turn the core into Linux binaries,
