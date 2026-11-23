@@ -125,6 +125,21 @@ unmaintained, or forgotten about.
   swarm, never as passive tracking or parking, and write it
   descriptively and helpfully, because the swarm works from the
   issue text alone: what is wanted, why, and what done looks like.
+- Resolved issues close automatically, or they do not count as
+  resolved. A PR that resolves an issue must name it with a closing
+  keyword (Closes #N, Fixes #N) in its description, aimed at the
+  branch the issue will actually land through, so GitHub closes the
+  issue when the work merges. Stacked PRs need care here: if the
+  resolving PR merges into another PR's branch rather than main,
+  the keyword only fires when that chain reaches main, so the
+  description must make the chain obvious.
+- Whoever merges the resolving work verifies afterwards that the
+  issue actually closed. If it is still open, close it manually in
+  the same session, with a short note linking the merged PR. An
+  issue whose work has landed must never be left sitting open;
+  issue #6 in luinbytes/spectra sat open after its PRs merged, and
+  Lu had to point it out. That is the failure this rule exists to
+  prevent.
 - When you notice something stale while doing other work, fix it
   in scope or record it in the sweep list in the same session.
   Noticing and walking past is the failure this section exists to
