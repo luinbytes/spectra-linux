@@ -39,17 +39,17 @@ jobs:
           mkdir -p repo/conf
 
           cat > repo/conf/distributions <<'EOF'
-          Origin: imput
-          Label: Helium
-          Description: Helium .deb repository
+          Origin: luinbytes
+          Label: Spectra
+          Description: Spectra .deb repository
           Codename: stable
           Architectures: amd64 arm64
           Components: main
           SignWith: default
 
-          Origin: imput
-          Label: Helium
-          Description: Helium .deb repository
+          Origin: luinbytes
+          Label: Spectra
+          Description: Spectra .deb repository
           Codename: prerelease
           Architectures: amd64 arm64
           Components: main
@@ -70,6 +70,7 @@ jobs:
           stable_tag=$(
             gh release list \
               --repo "$GITHUB_REPOSITORY" \
+              --exclude-drafts \
               --exclude-pre-releases \
               --limit 1 \
               --json tagName \
@@ -79,39 +80,39 @@ jobs:
           prerelease_tag=$(
             gh release list \
               --repo "$GITHUB_REPOSITORY" \
+              --exclude-drafts \
               --limit 1 \
               --json tagName \
               --jq '.[0].tagName'
           )
-
-          if [ -z "$stable_tag" ] || [ "$stable_tag" = "null" ]; then
-            echo "::error::No stable release found"
-            exit 1
-          fi
 
           if [ -z "$prerelease_tag" ] || [ "$prerelease_tag" = "null" ]; then
             echo "::error::No release found"
             exit 1
           fi
 
-          echo "::group::Adding stable ($stable_tag)"
-          mkdir -p /tmp/stable
-          gh release download "$stable_tag" \
-            --repo "$GITHUB_REPOSITORY" \
-            --pattern "*.deb" \
-            --dir /tmp/stable
-          for deb in /tmp/stable/*.deb; do
-            reprepro -S web includedeb stable "$deb"
-          done
-          echo "::endgroup::"
+          if [ -n "$stable_tag" ] && [ "$stable_tag" != "null" ]; then
+            echo "::group::Adding stable ($stable_tag)"
+            mkdir -p /tmp/stable
+            gh release download "$stable_tag" \
+              --repo "$GITHUB_REPOSITORY" \
+              --pattern "spectra-bin_*.deb" \
+              --dir /tmp/stable
+            for deb in /tmp/stable/spectra-bin_*.deb; do
+              reprepro -S web includedeb stable "$deb"
+            done
+            echo "::endgroup::"
+          else
+            echo "::notice::Skipping stable until a stable Spectra release exists"
+          fi
 
           echo "::group::Adding prerelease ($prerelease_tag)"
           mkdir -p /tmp/prerelease
           gh release download "$prerelease_tag" \
             --repo "$GITHUB_REPOSITORY" \
-            --pattern "*.deb" \
+            --pattern "spectra-bin_*.deb" \
             --dir /tmp/prerelease
-          for deb in /tmp/prerelease/*.deb; do
+          for deb in /tmp/prerelease/spectra-bin_*.deb; do
             reprepro -S web includedeb prerelease "$deb"
           done
           echo "::endgroup::"

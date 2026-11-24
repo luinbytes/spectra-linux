@@ -1,33 +1,47 @@
-# Helium packaging guidelines
+# Spectra packaging guidelines
 
-This document provides guidelines for packagers creating Helium packages
-for various Linux distriutions and packaging systems. These guidelines
+This document provides guidelines for packagers creating Spectra packages
+for various Linux distributions and packaging systems. These guidelines
 aim to ensure consistency across different package formats while
 respecting distribution-specific conventions.
 
 ## Installation
-- The installation prefix of Helium packages is not mandated by
+- The installation prefix of Spectra packages is not mandated by
   upstream. Note that on FHS-compliant distributions, Chromium-based
   browsers are typically installed into /opt or /usr/lib64.
 - The primary executable should be a symbolic link to
-  $prefix/helium-wrapper. On FHS-compliant distributions, it should
+  $prefix/spectra-wrapper. On FHS-compliant distributions, it should
   be installed into `/usr/bin` or `/usr/local/bin`.
 
 ## Branding
-- The primary executable name should be `helium`.
-- The package name should be `helium` if available; `helium-browser`
+- The primary executable name should be `spectra`.
+- The package name should be `spectra` if available; `spectra-browser`
   is acceptable otherwise. If the packaging system uses reverse-DNS
-  notation as identifiers, the identifier should be `net.imput.helium`
+  notation as identifiers, the identifier should be `io.github.luinbytes.spectra`
   (all lowercase).
 - If built from releases marked as "pre-release", the package name
   should have a `-prerelease` (preferred), `-pre` or `-beta` suffix.
 - If built from GitHub-hosted binaries, the package name should have a
   `-bin` suffix.
-- If installing the desktop file, it should be named `helium.desktop`
-   (or `net.imput.helium.desktop` on systems preferring reverse-DNS
+- If installing the desktop file, it should be named `spectra.desktop`
+   (or `io.github.luinbytes.spectra.desktop` on systems preferring reverse-DNS
     naming).
-- If installing icons, the icon name should be `helium`
-  (or `net.imput.helium`).
+- If installing icons, the icon name should be `spectra`
+  (or `io.github.luinbytes.spectra`).
+
+Official packages install under `/opt/spectra`. The public `spectra`
+command links to `spectra-wrapper`. The browser still uses the inherited
+`net.imput.helium` profile directory to preserve existing profiles.
+
+The shipped `spectra.png` is the 256 px rendering of the
+[approved Found line SVG](https://github.com/luinbytes/spectra/blob/bca63fac4fc43611f9e782c66ee84914a5ee2fd0/docs/logo-directions/b-found-line-redraw.svg).
+Regenerate it from that source with `resvg --width 256 b-found-line-redraw.svg package/spectra.png`.
+The tarball carries it as `product_logo_256.png`. The AppImage and
+Debian/RPM installers use it as `spectra.png`.
+
+For default-browser registration, use `spectra.desktop`. If you configure a
+different desktop ID with `HELIUM_DESKTOP`, install the matching file.
+Settings reports the expected filename if it cannot find the desktop entry.
 
 ## Versioning
 - Package versions should match the upstream version number.
@@ -45,7 +59,7 @@ respecting distribution-specific conventions.
 
 ## Security
 - Packages MUST NOT add default arguments that weaken the security of
-  Helium, including but not limited to `--no-sandbox`.
+  Spectra, including but not limited to `--no-sandbox`.
 - Packages MUST NOT be built with disabled build-time security features
   (e.g. `is_cfi=false`).
 

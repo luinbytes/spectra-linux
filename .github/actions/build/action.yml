@@ -1,5 +1,5 @@
-name: Build Helium
-description: Build Helium with Docker and upload build cache
+name: Build Spectra
+description: Build Spectra with Docker and upload build cache
 
 inputs:
   prepare-only:

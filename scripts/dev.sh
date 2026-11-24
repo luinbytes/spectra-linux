@@ -129,7 +129,7 @@ ___helium_run() {
         profile="$profile.wt/${_root_dir#*.wt/}"
     fi
 
-    cd "$_src_dir" && ./out/Default/helium \
+    cd "$_src_dir" && ./out/Default/spectra \
     --user-data-dir="$profile" \
     --enable-ui-devtools=$RANDOM "$@"
 }
@@ -271,7 +271,7 @@ __helium_menu() {
             printf 'usage: he (setup | build | run | sub | unsub | namesub | nameunsub | merge | unmerge | push | pop | pull | reset | translate | wt)\n' >&2
             printf '\tsetup [-c] - sets up the dev environment, optionally cloning chromium\n' >&2
             printf '\tbuild - prepares a development build binary\n' >&2
-            printf '\trun [args] - runs a development build of helium with dev data dir & ui devtools enabled\n' >&2
+            printf '\trun [args] - runs a development build of Spectra with dev data dir & ui devtools enabled\n' >&2
             printf '\tsub - apply google domain and name substitutions\n' >&2
             printf '\tunsub - undo google domain substitutions\n' >&2
             printf '\tnamesub - apply only name substitutions\n' >&2

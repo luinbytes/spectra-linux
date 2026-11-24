@@ -44,7 +44,7 @@
      return name.value();
    }
 -  return "chromium-browser.desktop";
-+  return "helium.desktop";
++  return "spectra.desktop";
  #endif
  }
  #endif  // BUILDFLAG(IS_LINUX)
@@ -81,7 +81,7 @@
  
  # Base name of the package.
 -PACKAGE="chromium-browser"
-+PACKAGE="helium"
++PACKAGE="spectra"
  
  # Filename of the main executable (for generating launcher scripts, etc.)
  PROGNAME=chrome
@@ -90,7 +90,7 @@
  
  # Display string for desktop menu/icon.
 -MENUNAME="Chromium Web Browser"
-+MENUNAME="Helium"
++MENUNAME="Spectra"
  
  # Brief package description.
  SHORTDESC="The web browser from the Chromium projects"
@@ -101,24 +101,24 @@
 -MAINTNAME="Chromium Linux Team"
 -MAINTMAIL="chromium-packagers@chromium.org"
 -PRODUCTURL="https://www.chromium.org/Home"
-+MAINTNAME="imput"
-+MAINTMAIL="helium@imput.net"
-+PRODUCTURL="https://helium.computer"
++MAINTNAME="luinbytes"
++MAINTMAIL="42706009+luinbytes@users.noreply.github.com"
++PRODUCTURL="https://github.com/luinbytes/spectra"
  
 -PROJECT_LICENSE="BSD-3-Clause and LGPL-2.1+ and Apache-2.0 and IJG and MIT and GPL-2.0+ and ISC and OpenSSL and (MPL-1.1 or GPL-2.0 or LGPL-2.0)"
 +PROJECT_LICENSE="GPL-3.0 and BSD-3-Clause and LGPL-2.1+ and Apache-2.0 and IJG and MIT and GPL-2.0+ and ISC and OpenSSL and (MPL-1.1 or GPL-2.0 or LGPL-2.0)"
  
 -DEVELOPER_NAME="The Chromium Authors"
-+DEVELOPER_NAME="The Helium Authors"
++DEVELOPER_NAME="luinbytes"
  
 -BUGTRACKERURL="https://www.chromium.org/for-testers/bug-reporting-guidelines"
-+BUGTRACKERURL="https://github.com/imputnet/helium-linux/issues"
++BUGTRACKERURL="https://github.com/luinbytes/spectra/issues"
  
 -HELPURL="https://chromium.googlesource.com/chromium/src/+/main/docs/linux/debugging.md"
-+HELPURL="https://helium.computer/"
++HELPURL="https://github.com/luinbytes/spectra-linux"
  
 -RDN="org.chromium.Chromium"
-+RDN="net.imput.helium"
++RDN="io.github.luinbytes.spectra"
 --- a/media/audio/pulse/pulse_util.cc
 +++ b/media/audio/pulse/pulse_util.cc
 @@ -37,8 +37,8 @@ namespace {
@@ -127,8 +127,8 @@
  #else
 -constexpr char kBrowserDisplayName[] = "chromium-browser";
 -#define PRODUCT_STRING "Chromium"
-+constexpr char kBrowserDisplayName[] = "helium";
-+#define PRODUCT_STRING "Helium"
++constexpr char kBrowserDisplayName[] = "spectra";
++#define PRODUCT_STRING "Spectra"
  #endif
  
  #if defined(DLOPEN_PULSEAUDIO)
@@ -143,7 +143,7 @@
 -#else  // BUILDFLAG(CHROMIUM_BRANDING)
 -  return "chromium-browser";
 -#endif
-+  return "helium";
++  return "spectra";
  }
  
  bool GetExistingShortcutContents(base::Environment* env,
