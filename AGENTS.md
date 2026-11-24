@@ -55,18 +55,45 @@ upstream imputnet repositories.
 - Never report a PR as ready before the Codex check has happened,
   and state its status plainly when reporting to Lu.
 
+## Branch model: main, nightly, and the core pin
+
+- `main` is the protected release branch. Only verified, release
+  ready packaging lives there: if it is on `main`, a release can
+  be built from it. Nothing is committed to `main` directly and
+  no work PR targets `main`; code reaches `main` only by
+  promotion from `nightly` (below). Branch protection enforces
+  this.
+- `nightly` is the integration branch. All packaging work is
+  based on `nightly` and merges back into it. Bugs are
+  acceptable on `nightly`; proving them out is what promotion
+  is for. Where older sections of this file say a change merges
+  to `main`, read `nightly`, unless the section is about
+  releases or promotion.
+- Promotion: when a state of `nightly` is verified (CI green,
+  Codex reviews checked, build actually run where that applies),
+  open one PR from `nightly` to `main`. That PR is the release
+  gate.
+- The core pin follows the same split, mirroring the branch
+  model in luinbytes/spectra: release builds from this repo's
+  `main` pin the core submodule at spectra `main`; dev builds
+  from `nightly` may pin spectra `nightly`. A core bump lands on
+  `nightly` first and reaches `main` only through promotion.
+  Upstream Helium syncs happen in the core repo, never here;
+  this repo absorbs them by bumping the pin.
+
 ## Branches stay clean
 
-- main is always buildable. Nobody pushes to main directly; every
-  change arrives by PR with CI green and the Codex review checked.
+- main is always buildable, and it is promotion only; see the
+  branch model above. nightly is where PRs land, with CI green
+  and the Codex review checked.
 - One branch per change, named for what it does, with a short kind
   prefix: feat/, fix/, docs/, agents/, chore/, ci/.
 - Branches are short lived. One still open and untouched after
   about two weeks needs a decision: finish it, or close it and
   record what is left in the sweep list below. Delete branches
   when their PR merges or closes.
-- Keep an open branch current with main while it lives. Never
-  rewrite history on main.
+- Keep an open branch current with nightly while it lives.
+  Never rewrite history on main.
 
 ## CI and builds stay healthy
 
