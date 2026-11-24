@@ -2,11 +2,11 @@
 set -euxo pipefail
 
 PLATFORM_DIR="$PWD"
-HELIUM_DIR="$PLATFORM_DIR/helium-chromium"
-SPEC="$PLATFORM_DIR/package/helium-bin.spec"
-METAINFO="$PLATFORM_DIR/package/net.imput.helium.metainfo.xml"
+SPEC="$PLATFORM_DIR/package/spectra-bin.spec"
+METAINFO="$PLATFORM_DIR/package/io.github.luinbytes.spectra.metainfo.xml"
 
-# version_after is exported by `bump-platform` action
+# version_after is exported by the bump-platform action.
+: "${version_after:?Missing core version from bump-platform}"
 sed -Ei "s/^(%define version ).*/\1$version_after/" "$SPEC"
 
 RELEASE_DATE=$(date +%Y-%m-%d)

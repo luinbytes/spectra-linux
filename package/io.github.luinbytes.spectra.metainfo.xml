@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<component type="desktop-application">
+  <id>io.github.luinbytes.spectra</id>
+  <launchable type="desktop-id">spectra.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>Spectra</name>
+  <summary>Private, fast, and honest web browser</summary>
+  <description>
+    <p>
+      Spectra is a private web browser based on Helium and Chromium.
+      It prioritizes user privacy while maintaining excellent performance and
+      a clean browsing experience.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Private browsing by default</li>
+      <li>Fast performance based on Chromium</li>
+      <li>Honest and transparent development</li>
+      <li>Cross-platform support</li>
+      <li>Open-source software</li>
+    </ul>
+  </description>
+  <url type="homepage">https://github.com/luinbytes/spectra</url>
+  <url type="bugtracker">https://github.com/luinbytes/spectra/issues</url>
+  <url type="help">https://github.com/luinbytes/spectra-linux</url>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="0.22.2.2" date="2026-11-23" />
+  </releases>
+  <developer id="io.github.luinbytes">
+    <name>luinbytes</name>
+  </developer>
+  <keywords>
+    <keyword>browser</keyword>
+    <keyword>web</keyword>
+    <keyword>internet</keyword>
+    <keyword>privacy</keyword>
+  </keywords>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+  </categories>
+</component>

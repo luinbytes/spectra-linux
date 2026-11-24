@@ -14,13 +14,8 @@ upstream imputnet repositories.
 ## What lives here, and what does not
 
 - The browser source arrives through the helium-chromium
-  submodule. Its home is luinbytes/spectra: PR #1 in this repo
-  moves the submodule URL from imputnet/helium to
-  luinbytes/spectra, and once that lands the submodule must keep
-  pointing at luinbytes/spectra. Never point it back at upstream,
-  and never edit the submodule's contents from this repo or commit
-  changes inside it. Core changes belong in luinbytes/spectra, in
-  its own patch layer.
+  submodule, which points to luinbytes/spectra. Keep that URL
+  and make core changes in the Spectra patch layer there.
 - This repo owns: the Linux patch set under patches/, packaging
   under package/, build scripts, the Docker builder images, and
   the CI workflows that turn the core into Linux binaries,
@@ -41,12 +36,14 @@ upstream imputnet repositories.
   Helium or Spectra a package is, and anything describing the
   artifacts as Helium's once Spectra's own builds ship. When your
   change makes one false, updating it is part of your change.
-- The packaging currently ships Helium named artifacts
-  (package/helium.desktop, helium wrapper scripts, the
-  net.imput.helium metainfo). That is correct until the rebrand
-  step lands; when it does, every one of those files is renamed or
-  updated in that same change, and this paragraph is updated with
-  it. Until then, do not half rename individual files.
+- Use Spectra names throughout packaging: `package/spectra.desktop`,
+  the `spectra-wrapper` scripts, `io.github.luinbytes.spectra`
+  AppStream metadata, and `spectra-bin` packages. Keep install paths,
+  release artifact names, and Debian repository selectors in sync.
+  See [the packaging guide](package/README.md) for the icon source.
+  For the first branded release, verify the Linux build with the
+  core branding from [Spectra #13](https://github.com/luinbytes/spectra/issues/13)
+  pinned through the separate submodule bump.
 
 ## Pull requests and the Codex review
 

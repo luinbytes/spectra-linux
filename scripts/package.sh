@@ -5,9 +5,9 @@ _current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 _root_dir="$(cd "$_current_dir/.." && pwd)"
 _build_dir="$_root_dir/build"
 _release_dir="$_build_dir/release"
-_app_dir="$_release_dir/Helium.AppDir"
+_app_dir="$_release_dir/Spectra.AppDir"
 
-_app_name="helium"
+_app_name="spectra"
 _version=$(python3 "$_root_dir/helium-chromium/utils/helium_version.py" \
                    --tree "$_root_dir/helium-chromium" \
                    --platform-tree "$_root_dir" \
@@ -24,14 +24,14 @@ if [ "$_arch" = "x64" ]; then
 fi
 
 _release_name="$_app_name-$_version-$_arch"
-_update_info="gh-releases-zsync|imputnet|helium-linux|latest|$_app_name-*-$_arch.AppImage.zsync"
+_update_info="gh-releases-zsync|luinbytes|spectra-linux|latest|$_app_name-*-$_arch.AppImage.zsync"
 _tarball_name="${_release_name}_linux"
 _tarball_dir="$_release_dir/$_tarball_name"
 
-_files="helium
+_files="spectra
 chrome_100_percent.pak
 chrome_200_percent.pak
-helium_crashpad_handler
+spectra_crashpad_handler
 chromedriver
 hyphen-data
 icudtl.dat
@@ -41,7 +41,6 @@ libqt5_shim.so
 libqt6_shim.so
 libvk_swiftshader.so
 libvulkan.so.1
-product_logo_256.png
 resources.pak
 v8_context_snapshot.bin
 vk_swiftshader_icd.json
@@ -54,18 +53,18 @@ rm -rf "$_tarball_dir"
 mkdir -p "$_tarball_dir"
 
 for file in $_files; do
-    cp -r "$_build_dir/src/out/Default/$file" "$_tarball_dir" &
+    cp -r "$_build_dir/src/out/Default/$file" "$_tarball_dir"
 done
 
 mkdir -p "$_tarball_dir/locales"
 cp "$_build_dir/src/out/Default/locales/"*.pak "$_tarball_dir/locales/"
 
-cp "$_root_dir/package/helium.desktop" "$_tarball_dir"
+cp "$_root_dir/package/spectra.desktop" "$_tarball_dir"
 cp "$_root_dir/package/apparmor.cfg" "$_tarball_dir"
-cp "$_root_dir/package/helium-wrapper.sh" "$_tarball_dir/helium-wrapper"
+cp "$_root_dir/package/spectra-wrapper.sh" "$_tarball_dir/spectra-wrapper"
 
-wait
-(cd "$_tarball_dir" && ln -sf helium chrome)
+cp "$_root_dir/package/spectra.png" "$_tarball_dir/product_logo_256.png"
+(cd "$_tarball_dir" && ln -sf spectra chrome)
 
 _syms_zip="$_release_dir/${_release_name}_symbols.zip"
 rm -f "$_syms_zip"
@@ -75,14 +74,14 @@ find "$_tarball_dir" -type f -exec file {} + \
     | (cd "$_build_dir/src/out/Default" && zip -q "$_syms_zip" -@)
 
 if command -v eu-strip >/dev/null 2>&1; then
-    _strip_cmd=eu-strip
+    _strip_cmd=(eu-strip)
 else
-    _strip_cmd="strip --strip-unneeded"
+    _strip_cmd=(strip --strip-unneeded)
 fi
 
 find "$_tarball_dir" -type f -exec file {} + \
     | awk -F: '/ELF/ {print $1}' \
-    | xargs $_strip_cmd
+    | xargs "${_strip_cmd[@]}"
 
 _size="$(du -sk "$_tarball_dir" | cut -f1)"
 
@@ -92,20 +91,21 @@ TAR_PATH="$_release_dir/$_tarball_name.tar.xz"
 tar vcf - "$_tarball_name" \
     | pv -s"${_size}k" \
     | xz -e9 > "$TAR_PATH" &
+tar_pid=$!
 
 # create AppImage
 rm -rf "$_app_dir"
-mkdir -p "$_app_dir/opt/helium/" "$_app_dir/usr/share/icons/hicolor/256x256/apps/"
-cp -r "$_tarball_dir"/* "$_app_dir/opt/helium/"
-cp "$_root_dir/package/helium.desktop" "$_app_dir"
+mkdir -p "$_app_dir/opt/spectra/" "$_app_dir/usr/share/icons/hicolor/256x256/apps/"
+cp -r "$_tarball_dir"/* "$_app_dir/opt/spectra/"
+cp "$_root_dir/package/spectra.desktop" "$_app_dir"
 
-cp "$_root_dir/package/helium-wrapper-appimage.sh" "$_app_dir/AppRun"
+cp "$_root_dir/package/spectra-wrapper-appimage.sh" "$_app_dir/AppRun"
 
-for out in "$_app_dir/helium.png" "${_app_dir}/usr/share/icons/hicolor/256x256/apps/helium.png"; do
-    cp "${_app_dir}/opt/helium/product_logo_256.png" "$out"
+for out in "$_app_dir/spectra.png" "${_app_dir}/usr/share/icons/hicolor/256x256/apps/spectra.png"; do
+    cp "${_app_dir}/opt/spectra/product_logo_256.png" "$out"
 done
 
-export APPIMAGETOOL_APP_NAME="Helium"
+export APPIMAGETOOL_APP_NAME="Spectra"
 export VERSION="$_version"
 
 # check whether CI GPG secrets are available
@@ -118,8 +118,10 @@ appimagetool \
     -u "$_update_info" \
     "$_app_dir" \
     "$_release_name.AppImage" "$@" &
+appimage_pid=$!
 popd
-wait
+wait "$tar_pid"
+wait "$appimage_pid"
 
 if [ "${MAKE_DEB:-0}" = 1 ]; then
     "$_root_dir/package/mkdeb.sh" "$TAR_PATH"

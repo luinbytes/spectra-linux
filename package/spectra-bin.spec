@@ -1,19 +1,19 @@
-%define version 0.22.2.1
+%define version 0.22.2.2
 %global debug_package %{nil}
 
-Name:    helium-bin
+Name:    spectra-bin
 Summary: Private, fast, and honest web browser
 Version: %{version}
 Release: 1%{?dist}
 Group:   web
 License: GPL-3.0
-URL:     https://github.com/imputnet/helium-linux
-Source0: https://github.com/imputnet/helium-linux/releases/download/%{version}/helium-%{version}-x86_64_linux.tar.xz
-Source1: https://github.com/imputnet/helium-linux/releases/download/%{version}/helium-%{version}-arm64_linux.tar.xz
-Source2: net.imput.helium.metainfo.xml
+URL:     https://github.com/luinbytes/spectra-linux
+Source0: https://github.com/luinbytes/spectra-linux/releases/download/%{version}/spectra-%{version}-x86_64_linux.tar.xz
+Source1: https://github.com/luinbytes/spectra-linux/releases/download/%{version}/spectra-%{version}-arm64_linux.tar.xz
+Source2: io.github.luinbytes.spectra.metainfo.xml
 
 %if 0%{?debbuild}
-Packager: imput <helium@imput.net>
+Packager: luinbytes <42706009+luinbytes@users.noreply.github.com>
 Provides: www-browser
 %endif
 
@@ -33,55 +33,55 @@ Private, fast, and honest web browser based on Chromium
 
 %prep
 %ifarch x86_64 amd64
-%setup -q -n helium-%{version}-x86_64_linux
+%setup -q -n spectra-%{version}-x86_64_linux
 %endif
 
 %ifarch aarch64 arm64
-%setup -q -T -b 1 -n helium-%{version}-arm64_linux
+%setup -q -T -b 1 -n spectra-%{version}-arm64_linux
 %endif
 
 %build
 # We are using prebuilt binaries
 
 %install
-%define helium_base /opt/helium
-%define heliumdir %{buildroot}%{helium_base}
+%define spectra_base /opt/spectra
+%define spectradir %{buildroot}%{spectra_base}
 
-mkdir -p %{heliumdir} \
+mkdir -p %{spectradir} \
          %{buildroot}%{_bindir} \
          %{buildroot}%{_datadir}/applications \
          %{buildroot}%{_datadir}/metainfo \
          %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
 
-cp -a . %{heliumdir}
+cp -a . %{spectradir}
 
 %if 0%{?debbuild}
 sed -Ei "s/(CHROME_VERSION_EXTRA=).*/\1deb/" \
-    %{heliumdir}/helium-wrapper
+    %{spectradir}/spectra-wrapper
 %else
 sed -Ei "s/(CHROME_VERSION_EXTRA=).*/\1rpm/" \
-    %{heliumdir}/helium-wrapper
+    %{spectradir}/spectra-wrapper
 %endif
 
 install -m 644 product_logo_256.png \
-    %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/helium.png
+    %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/spectra.png
 
-install -m 644 %{heliumdir}/helium.desktop \
+install -m 644 %{spectradir}/spectra.desktop \
     %{buildroot}%{_datadir}/applications/
 
 install -m 644 %{SOURCE2} \
-    %{buildroot}%{_datadir}/metainfo/net.imput.helium.metainfo.xml
+    %{buildroot}%{_datadir}/metainfo/io.github.luinbytes.spectra.metainfo.xml
 
-ln -sf %{helium_base}/helium-wrapper \
-    %{buildroot}%{_bindir}/helium
+ln -sf %{spectra_base}/spectra-wrapper \
+    %{buildroot}%{_bindir}/spectra
 
 %files
 %defattr(-,root,root,-)
-%{helium_base}/
-%{_bindir}/helium
-%{_datadir}/applications/helium.desktop
-%{_datadir}/metainfo/net.imput.helium.metainfo.xml
-%{_datadir}/icons/hicolor/256x256/apps/helium.png
+%{spectra_base}/
+%{_bindir}/spectra
+%{_datadir}/applications/spectra.desktop
+%{_datadir}/metainfo/io.github.luinbytes.spectra.metainfo.xml
+%{_datadir}/icons/hicolor/256x256/apps/spectra.png
 
 %post
 # Refresh icon cache and update desktop database
@@ -89,8 +89,8 @@ ln -sf %{helium_base}/helium-wrapper \
 /bin/touch --no-create %{_datadir}/icons/hicolor > /dev/null 2>&1 || :
 
 if command -v apparmor_parser > /dev/null 2>&1 && [ -d /etc/apparmor.d ]; then
-    cp %{helium_base}/apparmor.cfg /etc/apparmor.d/helium-bin
-    apparmor_parser -r -W -T /etc/apparmor.d/helium-bin || :
+    cp %{spectra_base}/apparmor.cfg /etc/apparmor.d/spectra-bin
+    apparmor_parser -r -W -T /etc/apparmor.d/spectra-bin || :
 fi
 
 %postun
@@ -101,11 +101,11 @@ case "$1" in
         /bin/touch --no-create %{_datadir}/icons/hicolor > /dev/null 2>&1
         /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor > /dev/null 2>&1 || :
 
-        if [ -f /etc/apparmor.d/helium-bin ]; then
+        if [ -f /etc/apparmor.d/spectra-bin ]; then
             if command -v apparmor_parser > /dev/null 2>&1; then
-                apparmor_parser -R /etc/apparmor.d/helium-bin || :
+                apparmor_parser -R /etc/apparmor.d/spectra-bin || :
             fi
-            rm -f /etc/apparmor.d/helium-bin
+            rm -f /etc/apparmor.d/spectra-bin
         fi
         ;;
 esac
