@@ -39,6 +39,10 @@ Regenerate it from that source with `resvg --width 256 b-found-line-redraw.svg p
 The tarball carries it as `product_logo_256.png`. The AppImage and
 Debian/RPM installers use it as `spectra.png`.
 
+For default-browser registration, use `spectra.desktop`. If you configure a
+different desktop ID with `HELIUM_DESKTOP`, install the matching file.
+Settings reports the expected filename if it cannot find the desktop entry.
+
 ## Versioning
 - Package versions should match the upstream version number.
 - Package versions may include a package revision suffix (e.g. `-1` in
