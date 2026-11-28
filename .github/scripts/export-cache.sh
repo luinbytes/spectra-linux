@@ -10,4 +10,5 @@ cd "$_base_dir"
 
 mkdir -p "$(dirname "$_cache_tar")"
 rm -rf "build/download_cache"
-tar -cf - "build" | zstd -f -T0 -3 -o "${_cache_tar}"
+# Siso checks exact modification times when resuming on the next runner.
+tar --format=posix --pax-option=delete=atime,delete=ctime -cf - build | zstd -f -T0 -3 -o "${_cache_tar}"
